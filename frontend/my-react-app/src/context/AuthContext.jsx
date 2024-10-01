@@ -23,7 +23,7 @@ export const AuthProvider = ({children}) => {
             if (storedUser !== null) {
                 setUser(JSON.parse(storedUser));
             }
-            await checkUser(); // This will override the localStorage data if there's a valid session
+            await checkUser(); 
         };
         initializeUser();
     }, []);
@@ -48,7 +48,7 @@ export const AuthProvider = ({children}) => {
             setUser(res.data.user);
         } catch (err) {
             setUser(null);
-            localStorage.removeItem('user'); // Clear local storage if the session is invalid
+            localStorage.removeItem('user');
         } finally {
             setLoading(false);
         }
