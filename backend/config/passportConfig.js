@@ -3,7 +3,6 @@ const { Strategy } = require('passport-local');
 const bcrypt = require('bcrypt');
 const { Client } = require('pg');
 
-// Set up PostgreSQL client
 const db = new Client({
   user: process.env.PG_USER,
   host: process.env.PG_HOST,
@@ -14,14 +13,12 @@ const db = new Client({
 
 db.connect();
 
-// Configure the Local Strategy
 passport.use(new Strategy({
     usernameField: 'email',
     passwordField: 'password'
 }, async function verify(email, password, cb) {
     try {
         const result = await db.query("SELECT * FROM USERS WHERE email = $1", [email]);
-        // const user_id = result.rows[0].id;
         if(result) {
             if(result.rows.length > 0){
                 user = result.rows[0];
