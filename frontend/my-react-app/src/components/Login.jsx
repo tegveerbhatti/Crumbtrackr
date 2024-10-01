@@ -21,7 +21,7 @@ function Login() {
     const handleSubmit = async (e) => {
       e.preventDefault();
       await login(input, () => {
-        navigate('/dashboard'); // or wherever you want to redirect after login
+        navigate('/dashboard'); 
       });
     };
 
