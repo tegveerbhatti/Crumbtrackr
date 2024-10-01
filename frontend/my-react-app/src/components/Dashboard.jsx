@@ -15,12 +15,10 @@ function Dashboard() {
             <InnerLayout>
                 <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
                 
-                {/* Line Chart at the top */}
                 <div className="w-full mb-4">
                     <LineChart />
                 </div>
                 
-                {/* Total Summary directly below the line chart */}
                 <div className="flex justify-around items-center w-full bg-white shadow-lg p-6 rounded-lg mb-8">
                     <div className="text-center px-4 py-2">
                         <h2 className="font-semibold text-lg text-blue-500">Total Income</h2>
@@ -42,7 +40,6 @@ function Dashboard() {
                     </div>
                 </div>
                 
-                {/* Doughnut Chart and History list sharing space vertically below the totals */}
                 <div className="flex flex-col md:flex-row justify-between items-start w-full">
                     <div className="w-full md:w-1/2 p-2">
                         <DoughnutChart />
