@@ -84,3 +84,4 @@ The application supports two types of authentication:
 
 This project is licensed under the MIT License. See the LICENSE file for details.
 # Crumbtrackr
+# Crumbtrackr
