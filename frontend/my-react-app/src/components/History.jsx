@@ -6,8 +6,8 @@ import HistoryItem from "./HistoryItem";
 function History() {
     const { incomes, expenses } = useGlobalContext();
     var transactions = [...incomes, ...expenses];
-    transactions.sort((a, b) => new Date(b.date) - new Date(a.date)); // Sorted to show the most recent first
-    transactions = transactions.slice(0, 6); // Only show the 6 most recent transactions
+    transactions.sort((a, b) => new Date(b.date) - new Date(a.date)); 
+    transactions = transactions.slice(0, 6); 
     
 
     return (
