@@ -28,24 +28,21 @@ const db = new pg.Client({
 
 db.connect();
 
-// Configure session middleware
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: false, // set to true in production
+        secure: false, 
         httpOnly: true,
-        maxAge: 24 * 60 * 60 * 1000, // 24 hours
-        sameSite: 'strict' // cookie is only sent to the same site
+        maxAge: 24 * 60 * 60 * 1000,
+        sameSite: 'strict' 
     },
 }));
 
-// Initialize Passport and use session middleware
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Define Passport GoogleStrategy
 passport.use("google", new GoogleStrategy(
     {
     clientID: process.env.GOOGLE_CLIENT_ID,
@@ -68,7 +65,6 @@ passport.use("google", new GoogleStrategy(
     }
 }));
 
-// Define Passport LocalStrategy
 passport.use("local", new LocalStrategy(
     {
         usernameField: 'email',
@@ -95,13 +91,11 @@ passport.use("local", new LocalStrategy(
     }
 ));
 
-// Serialize user to session
 passport.serializeUser((user, done) => {
-    done(null, user.id); // determines what data from the user object should be stored in the session
+    done(null, user.id); 
 });
 
-// Deserialize user from session
-passport.deserializeUser(async (id, done) => { // retrieve the whole user object from the database using the id
+passport.deserializeUser(async (id, done) => { 
     try {
         const result = await db.query('SELECT * FROM users WHERE id = $1', [id]);
         if (result.rows.length === 0) {
@@ -153,11 +147,10 @@ app.get('/auth/google',
   app.get('/auth/google/callback', 
     passport.authenticate('google', { failureRedirect: '/login' }),
     (req, res) => {
-      // Successful authentication, redirect home.
       res.redirect('http://localhost:5173/dashboard');
     });
 
-    app.get('/logout', (req, res) => { // NEEDS TO BE GET BECAUSE LOGOUT BUTTON IS ANCHOR TAG AND THOSE ONLY SUPPORT GET REQUESTS
+    app.get('/logout', (req, res) => { 
         req.logout((err) => {
             if (err) {
                 console.error("Logout error:", err);
