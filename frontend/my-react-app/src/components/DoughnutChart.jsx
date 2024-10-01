@@ -88,8 +88,8 @@ function DoughnutChart() {
                 '#795548', // Brown
                 '#607D8B', // Blue Grey
                 '#9E9E9E', // Grey
-                '#607D8B', // Blue Grey (again for balance if needed)
-                '#FFEB3B'  // Yellow (bright contrast for special categories)
+                '#607D8B', // Blue Grey 
+                '#FFEB3B'  // Yellow 
             ],
             hoverOffset: 4
         }]
