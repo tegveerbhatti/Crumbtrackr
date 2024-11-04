@@ -79,7 +79,3 @@ The application supports two types of authentication:
 - `POST /api/expense`: Add a new expense entry.
 - `GET /api/income`: Retrieve all income entries.
 - `GET /api/expense`: Retrieve all expense entries.
-
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for details.
