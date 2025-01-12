@@ -8,7 +8,6 @@ import Login from './Login';
 import Register from './Register';
 import { useGlobalContext } from '../context/GlobalContext';
 import ProtectedRoute from '../utils/ProtectedRoute.jsx';
-import AuthRedirect from './AuthRedirect';
 
 
 function App() {
@@ -22,7 +21,6 @@ function App() {
                 <Routes>
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
-                    <Route path="/auth-redirect" element={<AuthRedirect />} />
                     <Route element={<ProtectedRoute />}>
                         <Route path="/" element={<Dashboard />} />
                         <Route path="/dashboard" element={<Dashboard />} />
