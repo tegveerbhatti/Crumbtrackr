@@ -11,7 +11,7 @@ import {Chart as ChartJS,
     } from 'chart.js';
 
 import { Doughnut } from 'react-chartjs-2';
-import { useGlobalContext } from "/Users/tegveerbhatti/Desktop/Projects/crumbtrackr/frontend/my-react-app/src/context/GlobalContext.jsx";
+import { useGlobalContext } from "../context/GlobalContext.jsx";
 
 ChartJS.register(
     CategoryScale,

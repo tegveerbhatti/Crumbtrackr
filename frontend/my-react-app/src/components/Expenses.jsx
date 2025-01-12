@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import InnerLayout from './InnerLayout';
-import { useGlobalContext } from "/Users/tegveerbhatti/Desktop/Projects/crumbtrackr/frontend/my-react-app/src/context/GlobalContext.jsx";
+import { useGlobalContext } from "../context/GlobalContext.jsx";
 import ExpenseForm from './ExpenseForm';
 import IncomeItem from './IncomeItem';
 import Navigation from './Navigation';

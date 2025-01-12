@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import InnerLayout from './InnerLayout';
-import { useGlobalContext } from "/Users/tegveerbhatti/Desktop/Projects/crumbtrackr/frontend/my-react-app/src/context/GlobalContext.jsx";
-import { useAuthContext } from "/Users/tegveerbhatti/Desktop/Projects/crumbtrackr/frontend/my-react-app/src/context/AuthContext.jsx";
+import { useGlobalContext } from "../context/GlobalContext.jsx";
+import { useAuthContext } from "../context/AuthContext.jsx";
 import Form from './Form';
 import IncomeItem from './IncomeItem';
 import Navigation from './Navigation';

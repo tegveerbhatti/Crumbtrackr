@@ -1,5 +1,5 @@
 import React from "react";
-import { useGlobalContext } from "/Users/tegveerbhatti/Desktop/Projects/crumbtrackr/frontend/my-react-app/src/context/GlobalContext.jsx";
+import { useGlobalContext } from "../context/GlobalContext.jsx";
 import HistoryItem from "./HistoryItem";
 
 

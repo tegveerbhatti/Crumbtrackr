@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { useAuthContext } from '/Users/tegveerbhatti/Desktop/Projects/crumbtrackr/frontend/my-react-app/src/context/AuthContext.jsx';
+import { useAuthContext } from '../context/AuthContext.jsx';
 
 const ProtectedRoute = () => {
   const { user, loading } = useAuthContext();

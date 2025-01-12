@@ -7,7 +7,7 @@ import Expenses from './Expenses';
 import Login from './Login';
 import Register from './Register';
 import { useGlobalContext } from '../context/GlobalContext';
-import ProtectedRoute from '/Users/tegveerbhatti/Desktop/Projects/crumbtrackr/frontend/my-react-app/utils/ProtectedRoute.jsx';
+import ProtectedRoute from '../utils/ProtectedRoute.jsx';
 import AuthRedirect from './AuthRedirect';
 
 

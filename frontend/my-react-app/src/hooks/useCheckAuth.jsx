@@ -5,7 +5,7 @@ export const useCheckAuth = (setUser, setLoading) => {
     useEffect(() => {
         const checkUser = async () => {
             try {
-                const res = await axios.get('http://localhost:4000/userinfo', { withCredentials: true });
+                const res = await axios.get('http://35.183.64.163:3000:4000/userinfo', { withCredentials: true });
                 setUser(res.data.user);
             } catch (err) {
                 setUser(null);
