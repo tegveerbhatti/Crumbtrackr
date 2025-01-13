@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 // const BASE_URL = "http://localhost:4000/";
-const BASE_URL = "http://35.183.64.163:4000/";
+const BASE_URL = "https://api.crumbtrackr.com/auth/";
 
 export const AuthContext = createContext();
 
