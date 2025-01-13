@@ -26,8 +26,8 @@ function Login() {
       if (isLoggedIn) {
         navigate('/dashboard'); // Redirect on success
       } else {
-        alert("Login failed. Please check your credentials."); // Handle failure
-        console.log("Login credentials are wrong")
+        // alert("Login failed. Please check your credentials."); // Handle failure
+        // console.log("Login credentials are wrong")
       }
     };
     

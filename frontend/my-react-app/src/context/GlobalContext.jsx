@@ -1,8 +1,8 @@
 import React, { useState, useContext,  createContext, useEffect, useRef } from 'react';  
 import axios from 'axios';
 import { useAuthContext } from './AuthContext';
-// const BASE_URL = "https://35.183.64.163:3000/api/";
-const BASE_URL = "http://localhost:3000/api/";
+const BASE_URL = "http://35.183.64.163:3000/api/";
+// const BASE_URL = "http://localhost:3000/api/";
 
 
 const GlobalContext = createContext();
