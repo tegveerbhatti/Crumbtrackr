@@ -11,12 +11,17 @@ const jwt = require('jsonwebtoken');
 
 const app = express();
 const port = 4000;
+const whitelist = ['http://localhost:5173', 'https://crumbtrackr.netlify.app/'];
+
+const corsOptions = {
+    origin: ['http://localhost:5173', 'https://crumbtrackr.netlify.app'],
+    credentials: true,
+  };
 
 app.use(express.json());
-app.use(cors({
-    origin: 'http://localhost:5173',
-    credentials: true,
-}));
+app.use(cors(corsOptions));
+
+
 
 const db = new pg.Client({
     user: process.env.PG_USER,
@@ -29,44 +34,58 @@ const db = new pg.Client({
 db.connect();
 
 // Configure session middleware
-app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        secure: false, // set to true in production
+app.use(
+    session({
+      secret: process.env.SESSION_SECRET,
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        secure: false, // Set to true if using HTTPS
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000, // 24 hours
-        sameSite: 'strict' // cookie is only sent to the same site
-    },
-}));
+        sameSite: 'lax',
+      },
+    })
+  );
 
 // Initialize Passport and use session middleware
 app.use(passport.initialize());
 app.use(passport.session());
 
 // Define Passport GoogleStrategy
-passport.use("google", new GoogleStrategy(
-    {
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: 'http://localhost:4000/auth/google/callback',
-    userProfileURL: 'https://www.googleapis.com/oauth2/v3/userinfo',
-}, async (accessToken, refreshToken, profile, done) => {
-    try {
-        const result = await db.query("SELECT * FROM users WHERE email = $1", [profile.email]);
-        let user;
-        if(result.rows.length === 0){
-            const newUser = await db.query("INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *", [profile.email, null]);
+passport.use(
+    "google",
+    new GoogleStrategy(
+      {
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: "http://localhost:4000/auth/google/callback",
+        userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
+      },
+      async (accessToken, refreshToken, profile, done) => {
+        try {
+          const result = await db.query("SELECT * FROM users WHERE email = $1", [profile.email]);
+          let user;
+          if (result.rows.length === 0) {
+            const newUser = await db.query(
+              "INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *",
+              [profile.email, null]
+            );
             user = newUser.rows[0];
-        } else {
+          } else {
             user = result.rows[0];
+          }
+          return done(null, {
+            id: user.id,
+            email: user.email,
+            isAuthenticated: true,
+          }); // Ensure user object includes all required fields
+        } catch (err) {
+          return done(err);
         }
-        return done(null, user);
-    } catch (err) {
-        return done(err);
-    }
-}));
+      }
+    )
+  );
 
 // Define Passport LocalStrategy
 passport.use("local", new LocalStrategy(
@@ -115,6 +134,7 @@ passport.deserializeUser(async (id, done) => { // retrieve the whole user object
 
 app.post('/register', async (req, res) => {
     const { email, password } = req.body;
+    console.log(req.body);
 
     try {
         const result = await db.query('SELECT * FROM users WHERE email = $1', [email]);
@@ -143,19 +163,34 @@ app.post('/register', async (req, res) => {
     }
 });
 
-app.post('/login', passport.authenticate('local', { failureRedirect: 'http://localhost:5173/login' }), (req, res) => {
-    res.json({user: { id: req.user.id, email: req.user.email }});
+app.post('/login', (req, res, next) => {
+    passport.authenticate('local', (err, user, info) => {
+        if (err) {
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+        if (!user) {
+            return res.status(401).json({ error: 'Invalid email or password' });
+        }
+        req.login(user, (loginErr) => {
+            if (loginErr) {
+                return res.status(500).json({ error: 'Failed to log in' });
+            }
+            return res.json({ success: true, user: { id: user.id, email: user.email } });
+        });
+    })(req, res, next);
 });
 
 app.get('/auth/google',
     passport.authenticate('google', { scope: ['profile', 'email'] }));
   
-  app.get('/auth/google/callback', 
-    passport.authenticate('google', { failureRedirect: '/login' }),
-    (req, res) => {
-      // Successful authentication, redirect home.
-      res.redirect('http://localhost:5173/dashboard');
-    });
+    app.get(
+        '/auth/google/callback',
+        passport.authenticate('google', { failureRedirect: '/login' }),
+        (req, res) => {
+          console.log('Authenticated user:', req.user); // Debug
+          res.redirect('http://localhost:5173/dashboard'); // Redirect after login
+        }
+      );
 
     app.get('/logout', (req, res) => { // NEEDS TO BE GET BECAUSE LOGOUT BUTTON IS ANCHOR TAG AND THOSE ONLY SUPPORT GET REQUESTS
         req.logout((err) => {
@@ -181,16 +216,15 @@ app.get('/auth/google',
             });
         });
     });
-
-app.get('/userinfo', (req, res) => {
-    console.log(req.user);
-    console.log(req.isAuthenticated()); 
-    if (req.isAuthenticated()) {
-      res.json({user: req.user});
-    } else {
-      res.status(401).json({ error: 'Unauthorized' });
-    }
-  });
+    
+    app.get('/userinfo', (req, res) => {
+        console.log('Session user:', req.user); // Debug
+        if (req.isAuthenticated()) {
+          res.json({ user: { id: req.user.id, email: req.user.email, isAuthenticated: true } });
+        } else {
+          res.status(401).json({ error: 'Unauthorized' });
+        }
+      });
 
 
 app.listen(port, () => {

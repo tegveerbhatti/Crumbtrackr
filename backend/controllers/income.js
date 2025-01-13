@@ -27,20 +27,20 @@ exports.addIncome = async (req, res) => {
 }
 
 exports.getIncome = async (req, res) => {
-    const {user_id} = req.params;
-    
-    try {
-        const result = await db.query(
-            'SELECT * FROM income WHERE user_id = $1 ORDER BY date DESC', [user_id]
-        );
-        const income = result.rows;
-        res.status(200).json(income);
+    const { user_id } = req.params; // Ensure user_id is destructured properly
 
+    try {
+        console.log("User ID:", user_id, typeof user_id); // Log the user_id for debugging
+        const result = await db.query(
+            'SELECT * FROM income WHERE user_id = $1 ORDER BY date DESC',
+            [parseInt(user_id, 10)] // Ensure user_id is parsed as an integer
+        );
+        res.status(200).json(result.rows);
     } catch (error) {
-        console.log(error)
-        res.status(500).json({error: 'Internal server error'});
+        console.error(error); // Log detailed error
+        res.status(500).json({ error: 'Internal server error' });
     }
-}
+};
 
 exports.deleteIncome = async (req, res) => {
     const id = req.params.id;
