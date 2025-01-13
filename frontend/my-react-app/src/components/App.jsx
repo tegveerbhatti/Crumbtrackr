@@ -16,7 +16,7 @@ function App() {
     const global = useGlobalContext();
 
   return (
-        <BrowserRouter>
+        // <BrowserRouter>
         <div className = "App bg-color-app">
             <Main>
                 <Routes>
@@ -32,7 +32,7 @@ function App() {
                 </Routes>
             </Main>
         </div>
-        </BrowserRouter>
+        // </BrowserRouter>
   );
 }
 

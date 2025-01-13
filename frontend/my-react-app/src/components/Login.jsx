@@ -20,11 +20,18 @@ function Login() {
 
     const handleSubmit = async (e) => {
       e.preventDefault();
-      await login(input, () => {
-        navigate('/dashboard'); 
-      });
+      const credentials = { email, password };
+    
+      const isLoggedIn = await login(credentials); // Check if login was successful
+      if (isLoggedIn) {
+        navigate('/dashboard'); // Redirect on success
+      } else {
+        alert("Login failed. Please check your credentials."); // Handle failure
+        console.log("Login credentials are wrong")
+      }
     };
-
+    
+    
     const handleGoogleLogin = async () => {
       await googleLogin();
     }

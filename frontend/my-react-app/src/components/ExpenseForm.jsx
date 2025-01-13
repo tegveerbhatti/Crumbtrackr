@@ -18,11 +18,13 @@ function ExpenseForm() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
         // Ensure all fields are filled
         if (Object.values(formData).some(field => !field)) {
             alert("Please fill out all fields before submitting.");
             return;
         }
+
         addExpense(formData); // Pass the form data to the global context function
         setFormData({
             title: '',
@@ -73,12 +75,13 @@ function ExpenseForm() {
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500"
                 >
                     <option value="">Select a category</option>
-                    <option value="Food">Food</option>
-                    <option value="Transportation">Transportation</option>
-                    <option value="Rent">Rent</option>
-                    <option value="Utilities">Utilities</option>
-                    <option value="Entertainment">Entertainment</option>
-                    <option value="Other">Other</option>
+                    <option value="food">Food</option>
+                    <option value="clothes">Clothes</option>
+                    <option value="bills">Bills</option>
+                    <option value="transport">Transport</option>
+                    <option value="entertainment">Entertainment</option>
+                    <option value="health">Health</option>
+                    <option value="other">Other</option>
                 </select>
             </div>
 
@@ -97,7 +100,7 @@ function ExpenseForm() {
             <div>
                 <label htmlFor="date" className="block text-sm font-medium text-gray-700">Date</label>
                 <input
-                    type="datetime-local"
+                    type="date"
                     id="date"
                     name="date"
                     value={formData.date}

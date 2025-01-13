@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import defaultPfp from '../img/default_pfp.webp';
 
 
 function Navigation() {
@@ -37,10 +38,10 @@ function Navigation() {
       <ul
         tabIndex={0}
         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-        <li><a>Dashboard</a></li>
-        <li><a>Transactions</a></li>
-        <li><a>Income</a></li>
-        <li><a>Expenses</a></li>
+        <li><a href="/dashboard">Dashboard</a></li>
+        {/* <li><a>Transactions</a></li> */}
+        <li><a href="income">Income</a></li>
+        <li><a href="expenses">Expenses</a></li>
       </ul>
     </div>
     <a className="btn btn-ghost text-xl" href="/dashboard">
@@ -81,17 +82,18 @@ function Navigation() {
             <div className="w-10 rounded-full">
               <img
                 alt="Tailwind CSS Navbar component"
-                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                src={defaultPfp}
+                />
             </div>
           </div>
           <ul
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-            <li>
+            {/* <li>
               <a className="justify-between" href="/profile">Profile</a>
-            </li>
-            <li><a href="/settings">Settings</a></li>
-            <li><a href="/logout" onClick={handleLogout()}>Logout</a></li>
+            </li> */}
+            {/* <li><a href="/settings">Settings</a></li> */}
+            <li><a href="/logout" onClick={handleLogout}>Logout</a></li>
           </ul>
         </div>
       </div>

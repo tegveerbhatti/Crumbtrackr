@@ -18,24 +18,29 @@ function Form() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
         // Ensure all fields are filled
         if (Object.values(formData).some(field => !field)) {
             alert("Please fill out all fields before submitting.");
             return;
         }
-        addIncome(formData); // Pass the form data to the global context function
+
+        // Pass the form data to the global context function
+        addIncome(formData);
+
+        // Reset form after submission
         setFormData({
             title: '',
             amount: '',
             category: '',
             description: '',
             date: '',
-        }); // Reset form
+        });
     };
 
     return (
         <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-lg p-6 space-y-4">
-            <h2 className="text-xl font-bold mb-4">Add Income</h2>
+            <h2 className="text-xl font-bold mb-4 text-gray-800">Add Income</h2>
 
             <div>
                 <label htmlFor="title" className="block text-sm font-medium text-gray-700">Title</label>
@@ -46,7 +51,7 @@ function Form() {
                     value={formData.title}
                     onChange={handleChange}
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Enter a title"
+                    placeholder="e.g., Monthly Salary"
                 />
             </div>
 
@@ -59,7 +64,7 @@ function Form() {
                     value={formData.amount}
                     onChange={handleChange}
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Enter an amount"
+                    placeholder="Enter amount (e.g., 1000)"
                 />
             </div>
 
@@ -73,10 +78,14 @@ function Form() {
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                 >
                     <option value="">Select a category</option>
-                    <option value="Salary">Salary</option>
-                    <option value="Freelance">Freelance</option>
-                    <option value="Investment">Investment</option>
-                    <option value="Other">Other</option>
+                    <option value="salary">Salary</option>
+                    <option value="business">Business</option>
+                    <option value="freelancing">Freelancing</option>
+                    <option value="investments">Investments</option>
+                    <option value="gifts">Gifts</option>
+                    <option value="gambling">Gambling</option>
+                    <option value="bank">Bank</option>
+                    <option value="other">Other</option>
                 </select>
             </div>
 
@@ -88,14 +97,14 @@ function Form() {
                     value={formData.description}
                     onChange={handleChange}
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Enter a description"
+                    placeholder="Add a brief description (e.g., August paycheck)"
                 />
             </div>
 
             <div>
                 <label htmlFor="date" className="block text-sm font-medium text-gray-700">Date</label>
                 <input
-                    type="datetime-local"
+                    type="date"
                     id="date"
                     name="date"
                     value={formData.date}
