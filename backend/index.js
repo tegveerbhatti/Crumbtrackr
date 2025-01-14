@@ -1,24 +1,20 @@
-const express = require('express')
-const cors = require('cors')
-const pg = require('pg')
-const {readdirSync} = require('fs')
-const app = express()
+import express from 'express';
+import cors from 'cors';
+import { addIncome, getIncome, deleteIncome, addExpense, getExpense, deleteExpense } from './functions.js';
 
-require('dotenv').config()
+const app = express();
 
-const PORT = process.env.PORT || 3000
+// Middleware
+app.use(express.json());
+app.use(cors());
 
-//midelwares
-app.use(express.json())
-app.use(cors())   
+// Routes
+app.post('/api/add-income', addIncome);
+app.get('/api/get-income/:user_id', getIncome);
+app.delete('/api/delete-income/:id', deleteIncome);
+app.post('/api/add-expense', addExpense);
+app.get('/api/get-expense/:user_id', getExpense);
+app.delete('/api/delete-expense/:id', deleteExpense);
 
-//routes
-readdirSync('./routes').map((route) => app.use('/api', require(`./routes/transactions`)))
-
-const server = () => {
-    app.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`)
-    })
-}
-
-server()
+// Export handler for Vercel
+export default app;
