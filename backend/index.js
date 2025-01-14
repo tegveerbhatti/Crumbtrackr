@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-import { addIncome, getIncome, deleteIncome, addExpense, getExpense, deleteExpense } from './functions.js';
+import { addIncome, getIncome, deleteIncome} from './income.js';
+import { addExpense, getExpense, deleteExpense } from './expense.js'
 
 const app = express();
 
