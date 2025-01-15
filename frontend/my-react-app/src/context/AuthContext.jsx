@@ -41,46 +41,10 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Initialize user from localStorage or sessionStorage on app load
-  // useEffect(() => {
-  //   const initializeUser = async () => {
-  //     try {
-  //       setLoading(true); // Indicate loading state
-  //       const storedUser = sessionStorage.getItem("user") || localStorage.getItem("user");
-  
-  //       if (storedUser) {
-  //         const parsedUser = JSON.parse(storedUser);
-  //         if (parsedUser.isAuthenticated) {
-  //           console.log("Restoring user from storage:", parsedUser);
-  //           setUser(parsedUser); // Restore user from storage
-  //           return;
-  //         }
-  //       }
-  
-  //       // Fetch Google OAuth user if no stored user exists
-  //       const response = await axios.get(`${BASE_URL}userinfo`, { withCredentials: true });
-  //       if (response.data.user) {
-  //         const userData = {
-  //           id: response.data.user.id,
-  //           email: response.data.user.email,
-  //           isAuthenticated: true,
-  //         };
-  //         console.log("Fetched Google user:", userData);
-  //         setUser(userData);
-  //         sessionStorage.setItem("user", JSON.stringify(userData));
-  //       }
-  //     } catch (err) {
-  //       console.error("Error initializing user:", err.message);
-  //     } finally {
-  //       setLoading(false); // Ensure loading is complete
-  //     }
-  //   };
-  //   initializeUser();
-  // }, []);
-
   useEffect(() => {
     const initializeUser = async () => {
-      setLoading(true); // Show loading indicator
       try {
+        setLoading(true); // Indicate loading state
         const storedUser = sessionStorage.getItem("user") || localStorage.getItem("user");
   
         if (storedUser) {
@@ -88,21 +52,32 @@ export const AuthProvider = ({ children }) => {
           if (parsedUser.isAuthenticated) {
             console.log("Restoring user from storage:", parsedUser);
             setUser(parsedUser); // Restore user from storage
-          } else {
-            await fetchGoogleUser();  // Fetch Google user if no valid session
+            return;
           }
-        } else {
-          await fetchGoogleUser();  // Fetch Google user if no session found
+        }
+  
+        // Fetch Google OAuth user if no stored user exists
+        const response = await axios.get(`${BASE_URL}userinfo`, { withCredentials: true });
+        if (response.data.user) {
+          const userData = {
+            id: response.data.user.id,
+            email: response.data.user.email,
+            isAuthenticated: true,
+          };
+          console.log("Fetched Google user:", userData);
+          setUser(userData);
+          sessionStorage.setItem("user", JSON.stringify(userData));
         }
       } catch (err) {
         console.error("Error initializing user:", err.message);
       } finally {
-        setLoading(false); // End loading state
+        setLoading(false); // Ensure loading is complete
       }
     };
-  
     initializeUser();
-  }, []); // Runs once on component mount
+  }, []);
+
+  
   
 
   // Fetch user data from the server (Google Login)
