@@ -162,7 +162,7 @@ export const AuthProvider = ({ children }) => {
 
   const googleLogin = async () => {
     try {
-      window.location.href = `${BASE_URL}auth/google`; // Redirect to Google OAuth endpoint
+      window.location.href = `${BASE_URL}/google`; // Redirect to Google OAuth endpoint
     } catch (err) {
       console.error("Google login error:", err);
       setError(err.message || "An error occurred during Google login");
