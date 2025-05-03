@@ -35,7 +35,7 @@ Crumbtrackr is a full-stack expense tracking application that allows users to lo
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/crumbtrackr.git
+   git clone https://github.com/tegveerbhatti/crumbtrackr.git
    cd crumbtrackr
 
 2. **Install dependencies**: Run the following command to install project dependencies: `npm install`.
